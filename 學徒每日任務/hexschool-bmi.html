@@ -175,7 +175,7 @@
     let totalBMI = 0;
     let averageBMI = 0;
 
-    function sureClick() {
+    function sureClick() { //計算BMI
         const thisHeight = parseInt(height.value);
         const thisWeight = parseInt(weight.value);
         const bmi = (thisWeight / (thisHeight / 100 * thisHeight / 100)).toFixed(2);
@@ -199,13 +199,13 @@
 
         height.value = "";
         weight.value = "";
-        average(bmi);
-        bmiResult();
+        average(bmi);//呼叫計算平均bmi
+        bmiResult(bmi);//呼叫渲染畫面
 
     }
 
 
-    function average(bmiVal) {
+    function average(bmiVal) { //計算平均BMI
         totalBMI += Number(bmiVal);
         averageBMI = Number(totalBMI / data.length).toFixed(2);
         console.log(totalBMI, averageBMI);
@@ -222,10 +222,10 @@
             statusText: statusText
         });
         // console.log(data);
-        data.reverse();//陣列反轉
+
     }
 
-    function clearClick() {
+    function clearClick() { //清除值
         data = [];
         cardList.innerHTML = data;
         averageBMI = 0
@@ -233,8 +233,10 @@
         bmiContent.innerHTML = "";
     }
 
-    function bmiResult() { //bmi值
+    function bmiResult(bmi) { //渲染畫面
         let str = "";
+        data.reverse();//第一次反轉
+
         data.forEach(function (item) {
             str += `<div class="card-list py-7 mb-3">
                 <h3 class="mb-2 py-3 text-center ${item.status}">${item.statusText}</h3>
@@ -247,14 +249,9 @@
             record.style.display = "block";
             // console.log(str);
 
-            // totalBMI += item.bmi;
-
-
         });
 
-        // averageBMI = Number(totalBMI / data.length).toFixed(2);
-        // console.log(totalBMI, averageBMI);
-
+        data.reverse()//反轉第二次
         cardList.innerHTML = str;
         bmiContent.innerHTML = ` <div class="bmi-list"> 總計測量${data.length}次，BMI平均為${averageBMI} </div>`;
 
