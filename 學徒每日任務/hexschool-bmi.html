@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 1.7rem;
+            font-weight: 900;
+            color: #3d82ad;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3d82ad;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        .container {
+            width: 960px;
+            /* background-color: bisque; */
+        }
+
+        .btn-light {
+            background-color: rgb(255, 255, 255, 0.3);
+        }
+
+        .input-form {
+            background-color: #3d82ad;
+            display: flex;
+            border-radius: 10px;
+            color: white;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .cards-group {
+            margin: 0 auto;
+        }
+
+        .card-list {
+            line-height: 30px;
+            width: 20rem;
+            font-weight: 600;
+            border: #3d82ad solid 2px;
+            color: #3d82ad;
+            border-radius: 10px;
+
+        }
+
+        .bmi-list {
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .bmi-record {
+            display: none;
+        }
+
+        .yellow {
+            color: #FF79BC;
+        }
+
+        .blue {
+            color: #0080FF;
+        }
+
+        .brown {
+            color: #842B00;
+        }
+
+        .orange {
+            color: #FF8000;
+        }
+
+        .green {
+            color: #73BF00;
+        }
+
+        .red {
+            color: #FF0000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5 py-3">
+        <nav>
+            <img src="https://i.imgur.com/PsAUNqD.png" alt="">
+        </nav>
+
+        <div class="main" py-3>
+            <div class="title mb-4 text-center">
+                <h1>大 AI 數據之 BMI 體重計</h1>
+            </div>
+
+            <!-- 中間方框 -->
+            <div class="input-form py-3">
+
+                <from class="col-7">
+                    <div class="from-group">
+                        <label for="height">身高(公分)</label>
+                        <input type="number" class="form-control mt-2" id="height" placeholder="請輸入身高">
+                    </div><br>
+                    <div class="from-group">
+                        <label for="weight">體重(公斤)</label>
+                        <input type="number" class="form-control mt-2" id="weight" placeholder="請輸入體重">
+                    </div>
+
+                    <div class="pt-3 col-md-12 text-center">
+                        <button type="button" class="btn btn-outline-light btn-sm mt-2 " id="sure">確認</button>
+
+                        <button type="button" class="btn btn-outline-light btn-sm mt-2" id="clear">全部清除</button>
+                    </div>
+                </from>
+            </div>
+            <!-- 中間方框 -->
+        </div>
+
+        <!-- 顯示 -->
+        <section class="bmi-record mt-4">
+            <!--section通常會帶有標題。如果沒有標題，那麼就不推薦使用section -->
+            <div>
+                <h2 class="text-center mb-3">BMI紀錄</h2>
+            </div>
+            <div>
+
+            </div>
+
+            <div class="bmi-content text-center  mb-3"> </div>
+            <div class="row">
+
+
+
+                <div class="cards-group text-center mt-2">
+
+                </div>
+            </div>
+        </section>
+        <!-- 顯示 -->
+    </div>
+
+
+
+    </div>
+</body>
+
+<script>
+    let height = document.querySelector("#height");
+    let weight = document.querySelector("#weight");
+    let sure = document.querySelector("#sure").addEventListener("click", sureClick);
+    let clear = document.querySelector("#clear").addEventListener("click", clearClick);
+    let bmiContent = document.querySelector(".bmi-content");
+    let cardList = document.querySelector(".cards-group");
+    let record = document.querySelector(".bmi-record");
+    let data = [];
+    let totalBMI = 0;
+    let averageBMI = 0;
+
+    function sureClick() {
+        const thisHeight = parseInt(height.value);
+        const thisWeight = parseInt(weight.value);
+        const bmi = (thisWeight / (thisHeight / 100 * thisHeight / 100)).toFixed(2);
+
+        if (bmi > 0) {
+            if (bmi < 18.5) {
+                addData("yellow", "體重過輕", bmi)
+            } else if (bmi < 24) {
+                addData("blue", "正常", bmi)
+            } else if (bmi < 27) {
+                addData("brown", "體重過重", bmi)
+            } else if (bmi < 30) {
+                addData("orange", "輕度肥胖", bmi)
+            } else if (bmi < 35) {
+                addData("green", "中度肥胖", bmi)
+            } else
+                addData("red", "重度肥胖", bmi)
+        } else {
+            alert("請輸入數值")
+        }
+
+        height.value = "";
+        weight.value = "";
+        average(bmi);
+        bmiResult();
+
+    }
+
+
+    function average(bmiVal) {
+        totalBMI += Number(bmiVal);
+        averageBMI = Number(totalBMI / data.length).toFixed(2);
+        console.log(totalBMI, averageBMI);
+
+    }
+
+
+    function addData(status, statusText, bmi) {
+        data.push({
+            height: height.value,
+            weight: weight.value,
+            bmi: bmi,
+            status: status,
+            statusText: statusText
+        });
+        // console.log(data);
+        data.reverse();//陣列反轉
+    }
+
+    function clearClick() {
+        data = [];
+        cardList.innerHTML = data;
+        averageBMI = 0
+        totalBMI = 0;
+        bmiContent.innerHTML = "";
+    }
+
+    function bmiResult() { //bmi值
+        let str = "";
+        data.forEach(function (item) {
+            str += `<div class="card-list py-7 mb-3">
+                <h3 class="mb-2 py-3 text-center ${item.status}">${item.statusText}</h3>
+			<p class="text-center">
+				<span>BMI： ${item.bmi}</span><br>
+				<span>身高：${item.height} cm</span><br>
+				<span>體重：${item.weight} kg</span>
+			</p>
+		</div>`;
+            record.style.display = "block";
+            // console.log(str);
+
+            // totalBMI += item.bmi;
+
+
+        });
+
+        // averageBMI = Number(totalBMI / data.length).toFixed(2);
+        // console.log(totalBMI, averageBMI);
+
+        cardList.innerHTML = str;
+        bmiContent.innerHTML = ` <div class="bmi-list"> 總計測量${data.length}次，BMI平均為${averageBMI} </div>`;
+
+
+    }
+    bmiResult()
+
+
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+</html>
