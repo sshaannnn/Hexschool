@@ -107,10 +107,10 @@
                             document.cookie = `token=${token}; expires=${new Date(expired * 1000)}; path=/`;
 
                             this.token = document.cookie.replace(
-                                /(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/,'$1'
+                                /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,'$1'
                             );
                             axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;// 一個預設值的概念
-                            
+
                             window.location = './products.html';
 
                         }).catch(function (err) {

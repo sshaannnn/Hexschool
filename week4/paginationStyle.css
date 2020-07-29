@@ -1,0 +1,9 @@
+.pagination li a {
+    background-color: #212629;
+    color: white;
+}
+
+.pagination li a:hover {
+    background-color: white;
+    color: #212629;
+}
