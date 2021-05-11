@@ -1,0 +1,17 @@
+body,
+html {
+    height: 100%;
+    margin: 0 auto;
+}
+.header {
+    height: 55px;
+    background-color: #343b3f;
+}
+.content {
+    height: calc(100% - 50px);
+    background-color: #f8f9fa;
+    &__top {
+        height: 100px;
+        background-color: #fff;
+    }
+}
